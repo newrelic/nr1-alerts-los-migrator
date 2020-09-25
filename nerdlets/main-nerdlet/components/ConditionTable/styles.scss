@@ -1,0 +1,77 @@
+@import '../../../shared/scss/base-layout.scss';
+
+.conditions__table__container {
+  @include baseContainer;
+  @include defaultPanel;
+}
+
+.conditions__update__panel__header {
+  padding-top: .5rem;
+
+  &.first {
+    padding-top: 0;
+  }
+    
+  .ui.basic.label {
+    border: 0;
+    background: none;
+    padding-top: .5rem;
+  }
+}
+
+.conditions__update__panel {
+  @include defaultPanel;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+
+  &.last {
+    margin-bottom: .5rem;
+  }
+
+  .ui.basic.label {
+    border: 0;
+    background: none;
+    padding: 0 .8rem;
+    font-weight: 400;
+    min-width: 5.8rem;
+  }
+
+}
+
+.semantic__table__cell_halfWidth {
+  width: 4%;
+}
+
+.semantic__table__cell_twoHalfWidth {
+  width: 15%;
+}
+
+.semantic__table__wordyCell {
+  font-size: .8rem;
+}
+
+.semantic__table__checkbox {
+  display: flex;
+  justify-content: center;
+}
+
+.semantic__table__cellInput {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .5rem;
+
+  input::placeholder {
+    font-style: italic;
+    font-size: .75rem;
+  }
+}
+
+.semantic__table__checkLabel {
+  font-size: 12px;
+}
+
+.hidden {
+  display: none;
+}

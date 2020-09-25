@@ -1,0 +1,19 @@
+@import url('//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css');
+@import '~@newrelic/nr1-community/dist/index.css';
+@import '../shared/scss/base-layout.scss';
+@import '../main-nerdlet/components/ActionPanel/styles.scss';
+@import './components/ConditionTable/styles.scss';
+@import './components/LoadingMessage/styles.scss';
+@import './components/MenuBar/styles.scss';
+@import './components/Modal/styles.scss';
+
+.content__container {
+  @include baseContainer;
+  display: flex;
+}
+
+.conditions__container {
+  @include baseContainer;
+  display: flex;
+  flex-direction: column;
+}

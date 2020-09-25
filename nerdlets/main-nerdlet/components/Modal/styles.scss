@@ -1,0 +1,12 @@
+@import '../../../shared/scss/base-layout.scss';
+
+.errors__panel {
+  @include defaultPanel;
+  margin: 1.5rem 0; 
+}
+
+.errors__header {
+  display: flex;
+  align-items: center;
+  margin-bottom: .5rem;
+}

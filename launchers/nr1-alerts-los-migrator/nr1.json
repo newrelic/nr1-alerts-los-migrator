@@ -1,0 +1,7 @@
+{
+    "schemaType": "LAUNCHER",
+    "id": "nr1-alerts-los-migrator-launcher",
+    "displayName": "Loss of Signal Alerts Migrator",
+    "description": "Migrate NRQL conditions intended to detect LOS",
+    "rootNerdletId": "nr1-alerts-los-migrator-nerdlet"
+}

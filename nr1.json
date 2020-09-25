@@ -1,6 +1,6 @@
 {
   "schemaType": "NERDPACK",
-  "id": "",
-  "displayName": "{{NERDPACK_NAME}}",
-  "description": "My new nerdpack"
+  "id": "f81e2df1-63a1-4d2e-9569-168d616314d4",
+  "displayName": "Loss of Signal Alerts Migrator",
+  "description": "Nerdpack nr1-alert-los-migrator"
 }

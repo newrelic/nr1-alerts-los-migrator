@@ -1,0 +1,28 @@
+.menu__container {
+  height: 4rem;
+  width: 100%;
+}
+
+.menu__bar {
+  padding: 0 1rem 0;
+  background-color: #edeeee;
+  border-top: 1px solid #e3e4e4;
+  border-bottom: 1px solid #e3e4e4;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.menu__bar__item {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.menu__bar__label {
+  padding: .5rem 0 .2rem;
+  text-transform: uppercase;
+  color: #8e94a3;
+}
+

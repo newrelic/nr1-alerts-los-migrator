@@ -1,0 +1,22 @@
+@import '../../../shared/scss/base-layout.scss';
+
+.loading__container {
+  @include baseContainer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading__message__panel {
+  @include defaultPanel;
+  width: 40%;
+  font-size: 1rem;  
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading__message {
+  padding: 1rem;
+}
+
