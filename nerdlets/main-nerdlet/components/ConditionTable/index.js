@@ -215,9 +215,9 @@ export default class index extends React.PureComponent {
                       <input
                         style={
                           isSelected &&
-                            !this.isDurationValid(
-                              item.expiration.expirationDuration
-                            )
+                          !this.isDurationValid(
+                            item.expiration.expirationDuration
+                          )
                             ? this.tableMandatoryInputStyles
                             : this.tableInputStyles
                         }
@@ -259,62 +259,54 @@ export default class index extends React.PureComponent {
                       />
                     </div>
                   </div>
-                  {this.isDurationValid(item.expiration.expirationDuration) && (
-                    <>
-                      <div className="conditions__update__panel__header">
-                        <Label basic>Gap Filling Strategy</Label>
+                  <div className="conditions__update__panel__header">
+                    <Label basic>Gap Filling Strategy</Label>
+                  </div>
+                  <div className="conditions__update__panel last">
+                    <div className="semantic__table__cellInput">
+                      <Label basic>Fill Option</Label>
+                      <Select
+                        onChange={(e, value) =>
+                          edit({
+                            item,
+                            attribute: 'signal.fillOption',
+                            value,
+                          })
+                        }
+                        value={item.signal.fillOption}
+                      >
+                        <SelectItem value="NONE">None</SelectItem>
+                        <SelectItem value="STATIC">Static</SelectItem>
+                        <SelectItem value="LAST_VALUE">Last Value</SelectItem>
+                      </Select>
+                    </div>
+                    {item.signal.fillOption === 'STATIC' && (
+                      <div className="semantic__table__cellInput">
+                        <Label basic>Fill Value</Label>
+                        <input
+                          style={
+                            isSelected && 
+                              // eslint-disable-next-line prettier/prettier
+                              (item.signal.fillOption === 'STATIC' && !this.isFillValid(item.signal.fillValue))
+                              ? this.tableMandatoryInputStyles
+                              : this.tableInputStyles
+                          }
+                          value={
+                            item.signal.fillValue || item.signal.fillValue === 0
+                              ? item.signal.fillValue
+                              : ''
+                          }
+                          onChange={(e) =>
+                            edit({
+                              item,
+                              attribute: 'signal.fillValue',
+                              value: e.target.value,
+                            })
+                          }
+                        />
                       </div>
-                      <div className="conditions__update__panel last">
-                        <div className="semantic__table__cellInput">
-                          <Label basic>Fill Option</Label>
-                          <Select
-                            onChange={(e, value) =>
-                              edit({
-                                item,
-                                attribute: 'signal.fillOption',
-                                value,
-                              })
-                            }
-                            value={item.signal.fillOption}
-                          >
-                            <SelectItem value="NONE">None</SelectItem>
-                            <SelectItem value="STATIC">Static</SelectItem>
-                            <SelectItem value="LAST_VALUE">
-                              Last Value
-                            </SelectItem>
-                          </Select>
-                        </div>
-                        {item.signal.fillOption === 'STATIC' && (
-                          <div className="semantic__table__cellInput">
-                            <Label basic>Fill Value</Label>
-                            <input
-                              style={
-                                isSelected &&
-                                  (item.signal.fillOption === 'STATIC' &&
-                                    // eslint-disable-next-line prettier/prettier
-                                    !this.isFillValid(item.signal.fillValue))
-                                  ? this.tableMandatoryInputStyles
-                                  : this.tableInputStyles
-                              }
-                              value={
-                                item.signal.fillValue ||
-                                  item.signal.fillValue === 0
-                                  ? item.signal.fillValue
-                                  : ''
-                              }
-                              onChange={(e) =>
-                                edit({
-                                  item,
-                                  attribute: 'signal.fillValue',
-                                  value: e.target.value,
-                                })
-                              }
-                            />
-                          </div>
-                        )}
-                      </div>
-                    </>
-                  )}
+                    )}
+                  </div>
                 </Table.Cell>
               </Table.Row>
             )
