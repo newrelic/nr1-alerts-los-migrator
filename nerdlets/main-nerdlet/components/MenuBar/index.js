@@ -26,13 +26,7 @@ const index = ({
         {!loading && !lookupError && (
           <div className="menu__bar__item">
             <div className="menu__bar__label">Policy</div>
-            <Dropdown
-              title={
-                policy.id === ALL_POLICIES.id
-                  ? policy.name
-                  : `${policy.id}: ${policy.name}`
-              }
-            >
+            <Dropdown title={policy.name}>
               <DropdownItem
                 onClick={() => changePolicy(ALL_POLICIES)}
                 selected={policy.id === ALL_POLICIES.id}
@@ -45,7 +39,7 @@ const index = ({
                   onClick={() => changePolicy(p)}
                   selected={policy.id === p.id}
                 >
-                  {p.id}: {p.name}
+                  {p.name}
                 </DropdownItem>
               ))}
             </Dropdown>
