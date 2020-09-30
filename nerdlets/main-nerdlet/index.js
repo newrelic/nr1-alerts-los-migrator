@@ -6,7 +6,7 @@ import ActionPanel from './components/ActionPanel'
 import ConditionTable from './components/ConditionTable'
 import LoadingMessage from './components/LoadingMessage'
 import Modal from './components/Modal'
-import { set, cloneDeep } from 'lodash'
+import { set, cloneDeep, sortBy, lowerCase } from 'lodash'
 
 export const ALL_POLICIES = { id: 'All', name: 'All ' }
 
@@ -91,6 +91,7 @@ export default class index extends React.PureComponent {
       conditionsLoading,
       policiesLoading,
       conditions,
+      policies,
     } = this.state
 
     if (accountId && loading) {
@@ -108,8 +109,14 @@ export default class index extends React.PureComponent {
 
       if (!conditionsLoading && !policiesLoading) {
         this.addPoliciesToConditions()
+        const sortedConditions = sortBy(conditions, (c) =>
+          lowerCase(c.policyName)
+        )
+        const sortedPolicies = sortBy(policies, p => lowerCase(p.name))
         this.setState({
           loading: false,
+          conditions: sortedConditions,
+          policies: sortedPolicies,
         })
       }
     }
@@ -339,10 +346,11 @@ export default class index extends React.PureComponent {
           .join()}
       }
     `
-    console.info('mutation query', mutation)
+    // console.debug('mutation query', mutation)
     let error = null
     try {
       const { data, errors } = await NerdGraphMutation.mutate({ mutation })
+      console.debug('mutation query', data)
       if (errors) error = errors
     } catch (e) {
       error = e.message
@@ -421,7 +429,6 @@ export default class index extends React.PureComponent {
       if (attribute.includes('fillOption')) this.defaultFillValue(found)
       found.valid = this.isConditionValid(found)
 
-      console.info('found', found)
       const invalidIdx = invalid.findIndex((i) => i === item.id)
       if (invalidIdx !== -1) {
         if (found.valid) invalid.splice(invalidIdx, 1)

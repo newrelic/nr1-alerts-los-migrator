@@ -1,7 +1,7 @@
 ## Usage
 
 ### Overview
-New Relic is releasing native loss of signal alerting on [xxx]. To date, many customers have accomplished loss of signal style checks using NRQL-based conditions. When native support goes live, these NRQL-based conditions may miss failures or produce false positives. To avoid this outcome, customers are very strongly encouraged to update existing, NRLQ-based loss of signal conditions. This app is designed to facilitate that migration process.
+New Relic has released native loss of signal detection on Oct 5, 202o. To date, many customers have accomplished loss of signal style checks using NRQL-based conditions. When native support goes live, these NRQL-based conditions may no longer work as expected. To avoid this outcome, customers are very strongly encouraged to update existing, NRLQ-based loss of signal conditions to use the native loss of signal feature. This app is designed to facilitate that migration process.
 
 ### Migrating Conditions
 Loss of Signal Migrator locates all alerts that are likely candidates for migration and makes them avialable for updating. An alert is considered a likely candidate for migration if: 
@@ -15,12 +15,10 @@ Migration candidates are presented in tabular format for easy visual scanning; e
 Usage is very simple: select one or more conditions to update, edit the loss of signal and gap filling fields as needed, and hit update.
 
 ### What do the Loss of Signal and Gap Filling fields mean?
-Coming
-
-You can more information [in the New Relic docs](https://docs.newrelic.com/docs/alerts-applied-intelligence/new-relic-alerts/alerts-nerdgraph/nerdgraph-api-loss-signal-gap-filling).
+You can more information about the Loss of Signal and Gap Filling features [in the New Relic docs](https://docs.newrelic.com/docs/alerts-applied-intelligence/new-relic-alerts/alerts-nerdgraph/nerdgraph-api-loss-signal-gap-filling).
 
 ### What are Suggestions?
-Suggestions offer the simplest way to migrate existing conditions - clicking "Apply Conditions" will auto-fill the Loss of Signal and Gap forms with defaults that will closely mimic the current behaviour of the condition. Suggestion logic is applied as follows:
+Suggestions offer the simplest way to migrate existing conditions - clicking "Auto-fill Conditions" will autotomatically fill the Loss of Signal and Gap Filling fields with defaults that will closely mimic the current behaviour of the condition. Suggestion logic is applied as follows:
 
 Loss of Signal
 1. `duration = current critical threshold duration * evaluation offset (in seconds)`
