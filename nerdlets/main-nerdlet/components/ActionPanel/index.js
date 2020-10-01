@@ -36,6 +36,7 @@ const index = ({
       </div>
       <div className="button__row">
         <Button
+          sizeType={Button.SIZE_TYPE.LARGE}
           disabled={selected > 0 ? false : true}
           className="conditions__info__panel__button"
           onClick={applySuggestions}
@@ -43,6 +44,7 @@ const index = ({
           Auto-fill Suggestions
         </Button>
         <Button
+          sizeType={Button.SIZE_TYPE.LARGE}
           type={Button.TYPE.PRIMARY}
           disabled={selected > 0 && invalid === 0 ? false : true}
           className="conditions__info__panel__button"
