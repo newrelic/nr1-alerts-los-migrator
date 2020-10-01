@@ -1,3 +1,17 @@
+## [1.1.1](https://github.com/newrelic/nr1-alerts-los-migrator/compare/v1.1.0...v1.1.1) (2020-10-01)
+
+
+### Bug Fixes
+
+* style fixes for safari ([845afb6](https://github.com/newrelic/nr1-alerts-los-migrator/commit/845afb620368280317b4a1f8525a68bc0a941bc7))
+
+# [1.1.0](https://github.com/newrelic/nr1-alerts-los-migrator/compare/v1.0.0...v1.1.0) (2020-09-30)
+
+
+### Features
+
+* sort conditions and policies ([317d40b](https://github.com/newrelic/nr1-alerts-los-migrator/commit/317d40bade418cbd3675acd224d2677d792f4a19))
+
 # 1.0.0 (2020-09-29)
 
 
