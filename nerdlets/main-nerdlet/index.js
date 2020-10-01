@@ -9,6 +9,7 @@ import Modal from './components/Modal'
 import { set, cloneDeep, sortBy, lowerCase } from 'lodash'
 
 export const ALL_POLICIES = { id: 'All', name: 'All ' }
+export const DURATION_BOUNDARIES = { min: 60, max: 172800 }
 
 export default class index extends React.PureComponent {
   /*
@@ -456,7 +457,9 @@ export default class index extends React.PureComponent {
   isConditionValid = (item) => {
     if (!item) return true
 
-    const durationValid = item.expiration.expirationDuration > 0
+    const durationValid =
+      item.expiration.expirationDuration >= DURATION_BOUNDARIES.min &&
+      item.expiration.expirationDuration <= DURATION_BOUNDARIES.max
 
     const fillValueValid =
       item.signal.fillOption === 'STATIC' &&
