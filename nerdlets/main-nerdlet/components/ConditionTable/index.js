@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Checkbox, Select, SelectItem } from 'nr1'
+import { Checkbox, Select, SelectItem, Tooltip } from 'nr1'
 import { Table, Label, Menu, Icon } from 'semantic-ui-react'
 
-import { ALL_POLICIES } from '../../index'
+import { ALL_POLICIES, DURATION_BOUNDARIES } from '../../index'
 
 export default class index extends React.PureComponent {
   state = {
@@ -39,7 +39,10 @@ export default class index extends React.PureComponent {
   }
 
   isDurationValid = (value) => {
-    const valid = value && value > 0
+    const valid =
+      value &&
+      value >= DURATION_BOUNDARIES.min &&
+      value <= DURATION_BOUNDARIES.max
     return valid
   }
 
@@ -212,25 +215,30 @@ export default class index extends React.PureComponent {
                   <div className="conditions__update__panel">
                     <div className="semantic__table__cellInput">
                       <Label basic>Duration</Label>
-                      <input
-                        style={
-                          isSelected &&
-                          !this.isDurationValid(
-                            item.expiration.expirationDuration
-                          )
-                            ? this.tableMandatoryInputStyles
-                            : this.tableInputStyles
-                        }
-                        value={item.expiration.expirationDuration || ''}
-                        placeholder="seconds"
-                        onChange={(e) =>
-                          edit({
-                            item,
-                            attribute: 'expiration.expirationDuration',
-                            value: e.target.value,
-                          })
-                        }
-                      />
+                      <Tooltip
+                        text="Duration must be between 60 and 172800 (48 hours)"
+                        placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
+                      >
+                        <input
+                          style={
+                            isSelected &&
+                            !this.isDurationValid(
+                              item.expiration.expirationDuration
+                            )
+                              ? this.tableMandatoryInputStyles
+                              : this.tableInputStyles
+                          }
+                          value={item.expiration.expirationDuration || ''}
+                          placeholder="seconds"
+                          onChange={(e) =>
+                            edit({
+                              item,
+                              attribute: 'expiration.expirationDuration',
+                              value: e.target.value,
+                            })
+                          }
+                        />
+                      </Tooltip>
                     </div>
                     <div className="semantic__table__cellInput">
                       <Checkbox
@@ -285,7 +293,7 @@ export default class index extends React.PureComponent {
                         <Label basic>Fill Value</Label>
                         <input
                           style={
-                            isSelected && 
+                            isSelected &&
                               // eslint-disable-next-line prettier/prettier
                               (item.signal.fillOption === 'STATIC' && !this.isFillValid(item.signal.fillValue))
                               ? this.tableMandatoryInputStyles
