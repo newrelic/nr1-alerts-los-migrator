@@ -311,7 +311,7 @@ export default class index extends React.PureComponent {
         }, 
           signal: {
           fillOption: ${condition.signal.fillOption}, 
-          fillValue: ${condition.signal.fillValue}
+          fillValue: ${condition.signal.fillOption !== 'STATIC' ? null : condition.signal.fillValue}
         }
       }) {
           id
@@ -347,12 +347,15 @@ export default class index extends React.PureComponent {
           .join()}
       }
     `
-    // console.debug('mutation query', mutation)
+    console.debug('mutation query', mutation)
     let error = null
     try {
       const { data, errors } = await NerdGraphMutation.mutate({ mutation })
       console.debug('mutation query', data)
-      if (errors) error = errors
+      if (errors) {
+        error = errors
+        console.info('error saving', errors)
+      }
     } catch (e) {
       error = e.message
     } finally {
@@ -406,6 +409,8 @@ export default class index extends React.PureComponent {
           criticalTerms.thresholdDuration + found.signal.evaluationOffset * 60
         found.expiration.openViolationOnExpiration = true
         found.expiration.closeViolationsOnExpiration = false
+        found.signal.fillOption = 'NONE'
+        found.signal.fillValue = 0
 
         conditions[idx] = found
 
