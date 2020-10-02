@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/newrelic/nr1-alerts-los-migrator/compare/v1.1.1...v1.2.0) (2020-10-02)
+
+
+### Bug Fixes
+
+* invalid fillValue for non-static fillOptions ([c9180ba](https://github.com/newrelic/nr1-alerts-los-migrator/commit/c9180bab00eaa912860d50ee6f7f89fb546956c8))
+
+
+### Features
+
+* add boundary checking for expiration duration ([21d2ea0](https://github.com/newrelic/nr1-alerts-los-migrator/commit/21d2ea06c72a40eb2dd0392189d20434bf5c52d4))
+
 ## [1.1.1](https://github.com/newrelic/nr1-alerts-los-migrator/compare/v1.1.0...v1.1.1) (2020-10-01)
 
 
