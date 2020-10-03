@@ -395,12 +395,12 @@ export default class index extends React.PureComponent {
       c${condition.id}:alertsNrqlConditionStaticUpdate(id: ${condition.id}, accountId: ${accountId}, condition: {
         expiration: {
           closeViolationsOnExpiration: ${condition.expiration.closeViolationsOnExpiration}, 
-          expirationDuration: ${condition.expiration.expirationDuration}, 
+          expirationDuration: ${parseInt(condition.expiration.expirationDuration)}, 
           openViolationOnExpiration: ${condition.expiration.openViolationOnExpiration}
         }, 
           signal: {
           fillOption: ${condition.signal.fillOption}, 
-          fillValue: ${condition.signal.fillValue}
+          fillValue: ${condition.signal.fillOption !== 'STATIC' ? null : parseInt(condition.signal.fillValue)}
         }
       }) {
           id
