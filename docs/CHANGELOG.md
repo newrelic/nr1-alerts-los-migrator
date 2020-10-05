@@ -1,3 +1,10 @@
+## [1.2.5](https://github.com/newrelic/nr1-alerts-los-migrator/compare/v1.2.4...v1.2.5) (2020-10-05)
+
+
+### Bug Fixes
+
+* broken link in config.json ([d2d16ee](https://github.com/newrelic/nr1-alerts-los-migrator/commit/d2d16eec0b8ebaa443cbe98ce40b376ef8d2ac8c))
+
 ## [1.2.4](https://github.com/newrelic/nr1-alerts-los-migrator/compare/v1.2.3...v1.2.4) (2020-10-05)
 
 
