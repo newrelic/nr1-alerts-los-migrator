@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/newrelic/nr1-alerts-los-migrator/compare/v1.2.3...v1.2.4) (2020-10-05)
+
+
+### Bug Fixes
+
+* update description ([d15ff11](https://github.com/newrelic/nr1-alerts-los-migrator/commit/d15ff114de0f9ebec2b2664f108cab124c23ca79))
+
 ## [1.2.3](https://github.com/newrelic/nr1-alerts-los-migrator/compare/v1.2.2...v1.2.3) (2020-10-05)
 
 
