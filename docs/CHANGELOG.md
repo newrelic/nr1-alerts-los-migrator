@@ -1,3 +1,11 @@
+## [1.2.1](https://github.com/newrelic/nr1-alerts-los-migrator/compare/v1.2.0...v1.2.1) (2020-10-05)
+
+
+### Bug Fixes
+
+* enforce ints for duration/fillValue ([3412593](https://github.com/newrelic/nr1-alerts-los-migrator/commit/34125932d6429c6bae6d80d8240fb788b481db91))
+* send updates in batches ([2dc22f5](https://github.com/newrelic/nr1-alerts-los-migrator/commit/2dc22f58d695eb609f194a254bd27c0b232f90a4))
+
 # [1.2.0](https://github.com/newrelic/nr1-alerts-los-migrator/compare/v1.1.1...v1.2.0) (2020-10-02)
 
 
