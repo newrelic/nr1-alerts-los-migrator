@@ -1,6 +1,6 @@
 {
   "tagline": "Migrate your loss of signal alerts",
-  "details": "Utility to migrate existing NRQL-based Loss of Signal conditions into a compliant state with upcoming Loss of Signal Detection",
+  "details": "Utility to migrate existing NRQL-based Loss of Signal conditions",
   "repository": "https://github.com/newrelic/nr1-alerts-los-migrator.git",
   "support": {
     "email": {
@@ -13,5 +13,5 @@
       "url": "https://discuss.newrelic.com/t/nr1-alerts-los-migrator"
     }
   },
-  "whatsNew": ""
+  "whatsNew": "Initial release to New Relic One Catalog"
 }
