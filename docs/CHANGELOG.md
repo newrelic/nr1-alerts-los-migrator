@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/newrelic/nr1-alerts-los-migrator/compare/v1.2.1...v1.2.2) (2020-10-05)
+
+
+### Bug Fixes
+
+* documentation updates required for catalog ([0ab814f](https://github.com/newrelic/nr1-alerts-los-migrator/commit/0ab814fbf6ff90caed9396e8dab5e09f383530db))
+
 ## [1.2.1](https://github.com/newrelic/nr1-alerts-los-migrator/compare/v1.2.0...v1.2.1) (2020-10-05)
 
 
