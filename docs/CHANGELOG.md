@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/newrelic/nr1-alerts-los-migrator/compare/v1.2.2...v1.2.3) (2020-10-05)
+
+
+### Bug Fixes
+
+* update tagline to obey length requirement ([c84deee](https://github.com/newrelic/nr1-alerts-los-migrator/commit/c84deeec89eb908334ff05a02661b88ca67a72bb))
+
 ## [1.2.2](https://github.com/newrelic/nr1-alerts-los-migrator/compare/v1.2.1...v1.2.2) (2020-10-05)
 
 
