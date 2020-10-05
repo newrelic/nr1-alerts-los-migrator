@@ -9,8 +9,6 @@ This rollout will change behavior that you may be relying on to detect when an e
 __To prevent this__, you MUST update all such NRQL conditions to use the new loss of signal detection capability BEFORE, or immediately after, New Relic One Streaming Alerts is enabled for your account.  If you are reading this after October 28, 2020, then you can use this to find the conditions that may no longer be working and need updating.
 
 ## Usage
-![Screenshot #1](./screenshots/screenshot_01.png)
-
 This app is a bulk review and editing tool for all nrql conditions for a given account that use either the “<” operator with any threshold value, or use the “=” operator with a threshold value of “0”.   The key elements of the NRQL Condition are listed as read-only in the left portion of a row, with the new settings for Loss of Signal and Gap Filling exposed on the right side. If there are already values set for those fields, they will be displayed.   You may edit and update conditions individually, or edit and update them in batches. 
 
 The __“Auto-fill Suggestions”__ button is here to help you if you are not sure what to enter for Loss of Signal duration.  When you select a set of NRQL condition rows, and click the button, it will fill in a time for the duration and enable the “open violation on expiration” option.  The duration time will be the sum of the evaluation duration and the evaluation offset.  
