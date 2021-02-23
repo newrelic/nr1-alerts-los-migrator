@@ -15,7 +15,7 @@
     "dependencies": {
         "@newrelic/nr1-community": "latest",
         "prop-types": "^15.6.2",
-        "lodash": "^4.17.20",
+        "lodash": "^4.17.21",
         "semantic-ui-react": "^1.3.0"
     },
     "browserslist": [
