@@ -1,4 +1,4 @@
-[![Community Project header](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/Community_Project.png)](https://opensource.newrelic.com/oss-category/#community-project)
+[![New Relic One Catalog Project header](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/New_Relic_One_Catalog_Project.png)](https://opensource.newrelic.com/oss-category/#new-relic-one-catalog-project)
 
 # Loss of Signal Alerts Migrator
 
@@ -11,7 +11,7 @@ Use the Loss of Signal Alerts Migrator to bulk review and edit NRQL conditions t
 ## Context
 Throughout the month of October, 2020, New Relic is rolling out “New Relic One Streaming Alerts” for NRQL Conditions. This new platform will deliver a good number of benefits that will ultimately make alerts more accurate and reliable while delivering significant improvements in time-to-detect.  [Read about the details of this release here.](https://discuss.newrelic.com/t/announcing-new-relic-one-streaming-alerts-for-nrql-conditions/115361)
 
-With this rollout, we will be making the entire streaming pipeline event-driven to improve reliability,  delivering official support for loss of signal detection, and allowing you to specify which gap filling strategy you wish to use.  
+With this rollout, we will be making the entire streaming pipeline event-driven to improve reliability,  delivering official support for loss of signal detection, and allowing you to specify which gap filling strategy you wish to use.
 
 ### Critical Change in Behavior
 This rollout will change behavior that you may be relying on to detect when an entity or service goes offline.  We will no longer be inserting a “0” into the alert evaluation stream when there are gaps in the data.  Gaps in data occur when there is no data for a specific aggregation window.  Therefore, if you are currently monitoring for the uptime of an entity of service using an alert condition with an evaluation that uses a “<” operator, or  “=0” , they will immediately stop working once the new streaming platform is enabled on your account.  This will result in “false negatives” if that monitored service does go down.
@@ -29,8 +29,8 @@ This project is distributed under the [Apache 2 license](LICENSE).
 
 ## Getting started
 
-To install from the [New Relic One App Catalog](https://opensource.newrelic.com/nerdpacks/): 
-1. login to New Relic One, 
+To install from the [New Relic One App Catalog](https://opensource.newrelic.com/nerdpacks/):
+1. login to New Relic One,
 2. click on the New Relic One Catalog launcher
 3. select Loss of Signal Alerts Migrator
 4. enable/configure account-level access to the application.
@@ -82,6 +82,12 @@ Please do not report issues with Loss of Signal Migrator to New Relic Global Tec
 ## Issues / Enhancement Requests
 
 Issues and enhancement requests can be submitted in the [Issues tab of this repository](https://github.com/newrelic/nr1-alerts-los-migrator/issues). Please search for and review the existing open issues before submitting a new issue.
+
+## Security
+
+As noted in our [security policy](https://github.com/newrelic/nr1-alerts-los-migrator/security), New Relic is committed to the privacy and security of our customers and their data. We believe that providing coordinated disclosure by security researchers and engaging with the security community are important means to achieve our security goals.
+
+If you believe you have found a security vulnerability in this project or any of New Relic's products or websites, we welcome and greatly appreciate you reporting it to New Relic through HackerOne.
 
 ## Contributing
 
