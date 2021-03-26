@@ -1,3 +1,10 @@
+## [1.2.7](https://github.com/newrelic/nr1-alerts-los-migrator/compare/v1.2.6...v1.2.7) (2021-03-26)
+
+
+### Bug Fixes
+
+* package.json & package-lock.json to reduce vulnerabilities ([083b8d3](https://github.com/newrelic/nr1-alerts-los-migrator/commit/083b8d331eaf4e31af1cef98320a06382afe1685))
+
 ## [1.2.6](https://github.com/newrelic/nr1-alerts-los-migrator/compare/v1.2.5...v1.2.6) (2021-03-23)
 
 
