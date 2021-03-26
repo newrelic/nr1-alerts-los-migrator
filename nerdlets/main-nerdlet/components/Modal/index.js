@@ -32,7 +32,7 @@ const index = ({
             Errors during save
           </HeadingText>
           </div>
-          <BlockText>{JSON.stringify(errors)}</BlockText>
+          <BlockText>One or more or your changes could not be submitted successfully. Please check the console for details.</BlockText>
         </div>
       )}
 
@@ -70,7 +70,7 @@ index.propTypes = {
   hidden: PropTypes.bool.isRequired,
   saving: PropTypes.bool.isRequired,
   complete: PropTypes.bool.isRequired,
-  errors: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  errors: PropTypes.bool.isRequired,
   cancel: PropTypes.func.isRequired,
   save: PropTypes.func.isRequired,
   finish: PropTypes.func.isRequired,

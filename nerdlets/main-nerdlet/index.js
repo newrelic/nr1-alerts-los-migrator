@@ -6,9 +6,10 @@ import ActionPanel from './components/ActionPanel'
 import ConditionTable from './components/ConditionTable'
 import LoadingMessage from './components/LoadingMessage'
 import Modal from './components/Modal'
-import { set, cloneDeep } from 'lodash'
+import { set, cloneDeep, sortBy, lowerCase } from 'lodash'
 
 export const ALL_POLICIES = { id: 'All', name: 'All ' }
+export const DURATION_BOUNDARIES = { min: 60, max: 172800 }
 
 export default class index extends React.PureComponent {
   /*
@@ -44,7 +45,8 @@ export default class index extends React.PureComponent {
     invalid: [],
     saving: false,
     saveComplete: false,
-    saveErrors: null,
+    saveErrors: false,
+    saveCursorPosition: 0,
     modalHidden: true,
     modalMounted: false,
   }
@@ -57,6 +59,7 @@ export default class index extends React.PureComponent {
 
   EQUALS_CRITERIA = 'EQUALS'
   LESS_THAN_CRITERIA = 'BELOW'
+  SAVE_BATCH_SIZE = 75
 
   async componentDidMount() {
     const {
@@ -91,6 +94,8 @@ export default class index extends React.PureComponent {
       conditionsLoading,
       policiesLoading,
       conditions,
+      policies,
+      saving,
     } = this.state
 
     if (accountId && loading) {
@@ -108,10 +113,20 @@ export default class index extends React.PureComponent {
 
       if (!conditionsLoading && !policiesLoading) {
         this.addPoliciesToConditions()
+        const sortedConditions = sortBy(conditions, (c) =>
+          lowerCase(c.policyName)
+        )
+        const sortedPolicies = sortBy(policies, (p) => lowerCase(p.name))
         this.setState({
           loading: false,
+          conditions: sortedConditions,
+          policies: sortedPolicies,
         })
       }
+    }
+
+    if (saving) {
+      this.saveChanges()
     }
   }
 
@@ -197,7 +212,7 @@ export default class index extends React.PureComponent {
   parseConditions = (results, category) => {
     let { equalsCount, lessThanCount } = this.state
 
-    console.debug('parsing conditions', results)
+    // console.debug('parsing conditions', results)
 
     const data = results.actor.account.alerts.nrqlConditionsSearch
     if (data) {
@@ -214,8 +229,10 @@ export default class index extends React.PureComponent {
         )
       } else clonedConditions = clonedConditions.concat(data.nrqlConditions)
 
-      if (category === this.EQUALS_CRITERIA && equalsCount === 0) equalsCount = total
-      if (category === this.LESS_THAN_CRITERIA && lessThanCount === 0) lessThanCount = total
+      if (category === this.EQUALS_CRITERIA && equalsCount === 0)
+        equalsCount = total
+      if (category === this.LESS_THAN_CRITERIA && lessThanCount === 0)
+        lessThanCount = total
 
       const loadingType =
         category === this.EQUALS_CRITERIA ? 'equalsLoading' : 'lessThanLoading'
@@ -223,7 +240,8 @@ export default class index extends React.PureComponent {
         category === this.EQUALS_CRITERIA ? 'equalsCursor' : 'lessThanCursor'
 
       this.setState({
-        loadingActivity: category === this.EQUALS_CRITERIA ? 'equals' : 'less than',
+        loadingActivity:
+          category === this.EQUALS_CRITERIA ? 'equals' : 'less than',
         conditions: clonedConditions,
         [loadingType]: nextCursor !== null,
         [cursorType]: nextCursor,
@@ -293,17 +311,96 @@ export default class index extends React.PureComponent {
     this.setState({ conditions: clonedConditions })
   }
 
+  saveChanges = async () => {
+    const { accountId, selected, conditions, saveCursorPosition } = this.state
+    let { saveErrors } = this.state
+
+    if (saveCursorPosition >= selected.length) {
+      this.setState({
+        saving: false,
+        saveComplete: true,
+        saveCursorPosition: 0,
+      })
+      return
+    }
+    const batchNumber = saveCursorPosition / this.SAVE_BATCH_SIZE + 1
+    console.info('saving batch', batchNumber)
+
+    const saveBatch =
+      selected.length <= this.SAVE_BATCH_SIZE
+        ? selected
+        : selected.slice(
+            saveCursorPosition,
+            saveCursorPosition + this.SAVE_BATCH_SIZE
+          )
+
+    const mutation = `
+      mutation {
+        ${saveBatch
+          .map((s) =>
+            this.getConditionMutation(
+              conditions.find((c) => c.id === s),
+              accountId
+            )
+          )
+          .join()}
+      }
+    `
+    console.info('mutation query', mutation)
+    let error = null
+    try {
+      const { data } = await NerdGraphMutation.mutate({ mutation })
+    } catch (e) {
+      error = e.message
+    } finally {
+      /* 
+        Note: if an error occurs during save, the graphql call will trigger an error
+        on the promise. It is not accessible in an errors object returned by the call, 
+        so we can't get at the underlying cause was. The data result is also not accessible, 
+        so it isn't possible to know which calls passed and which failed. An error doesn't 
+        fail the entire batch.
+      */
+      if (error) {
+        console.error(
+          'errors occurred saving batch',
+          batchNumber,
+          JSON.stringify(error)
+        )
+        console.error(
+          'If a GraphQL error occured, you can locate the source of errors by submtting the above mutation at https://api.newrelic.com/graphiql'
+        )
+        saveErrors = true
+      }
+
+      if (selected.length <= this.SAVE_BATCH_SIZE) {
+        this.setState({
+          saving: false,
+          saveComplete: true,
+          saveErrors,
+        })
+      } else {
+        const nextSaveCursorPosition = saveCursorPosition + this.SAVE_BATCH_SIZE
+        this.setState({
+          saving: true,
+          saveComplete: false,
+          saveErrors,
+          saveCursorPosition: nextSaveCursorPosition,
+        })
+      }
+    }
+  }
+
   getConditionMutation = (condition, accountId) => {
     const conditionMutationObject = `
       c${condition.id}:alertsNrqlConditionStaticUpdate(id: ${condition.id}, accountId: ${accountId}, condition: {
         expiration: {
           closeViolationsOnExpiration: ${condition.expiration.closeViolationsOnExpiration}, 
-          expirationDuration: ${condition.expiration.expirationDuration}, 
+          expirationDuration: ${parseInt(condition.expiration.expirationDuration)}, 
           openViolationOnExpiration: ${condition.expiration.openViolationOnExpiration}
         }, 
           signal: {
           fillOption: ${condition.signal.fillOption}, 
-          fillValue: ${condition.signal.fillValue}
+          fillValue: ${condition.signal.fillOption !== 'STATIC' ? null : parseInt(condition.signal.fillValue)}
         }
       }) {
           id
@@ -321,37 +418,12 @@ export default class index extends React.PureComponent {
 
   onChangePolicy = (value) => this.setState({ policy: value })
 
-  onSaveChanges = async () => {
-    console.debug('saving changes')
-
+  onSaveChanges = () => {
+    const { selected } = this.state
+    console.info(
+      `Saving ${selected.length} changes. Changes are saved in batches of ${this.SAVE_BATCH_SIZE}`
+    )
     this.setState({ saving: true })
-    const { accountId, selected, conditions } = this.state
-
-    const mutation = `
-      mutation {
-        ${selected
-          .map((s) =>
-            this.getConditionMutation(
-              conditions.find((c) => c.id === s),
-              accountId
-            )
-          )
-          .join()}
-      }
-    `
-    console.info('mutation query', mutation)
-    let error = null
-    try {
-      const { data, errors } = await NerdGraphMutation.mutate({ mutation })
-      if (errors) error = errors
-    } catch (e) {
-      error = e.message
-    } finally {
-      if (error)
-        console.error('errors occurred during save', JSON.stringify(error))
-
-      this.setState({ saving: false, saveComplete: true, saveErrors: error })
-    }
   }
 
   onCancelSave = () => this.setState({ saving: false, modalHidden: true })
@@ -386,22 +458,24 @@ export default class index extends React.PureComponent {
     const selected = [...this.state.selected]
     let invalid = [...this.state.invalid]
 
-    selected.forEach(s => {
+    selected.forEach((s) => {
       const idx = conditions.findIndex((c) => c.id === s)
       if (idx || idx === 0) {
         let found = cloneDeep(conditions[idx])
 
-        const criticalTerms = found.terms.find(t => t.priority === 'CRITICAL')
+        const criticalTerms = found.terms.find((t) => t.priority === 'CRITICAL')
 
         found.expiration.expirationDuration =
           criticalTerms.thresholdDuration + found.signal.evaluationOffset * 60
         found.expiration.openViolationOnExpiration = true
         found.expiration.closeViolationsOnExpiration = false
+        found.signal.fillOption = 'NONE'
+        found.signal.fillValue = 0
 
         conditions[idx] = found
 
         // a suggested condition is by its nature value - make sure it doesn't hang around in invalid
-        invalid = invalid.filter(i => i !== found.id)
+        invalid = invalid.filter((i) => i !== found.id)
 
         this.setState({ conditions, invalid })
       } else console.warn(`onEditCondition: cound not find condition ${s}`)
@@ -421,7 +495,6 @@ export default class index extends React.PureComponent {
       if (attribute.includes('fillOption')) this.defaultFillValue(found)
       found.valid = this.isConditionValid(found)
 
-      console.info('found', found)
       const invalidIdx = invalid.findIndex((i) => i === item.id)
       if (invalidIdx !== -1) {
         if (found.valid) invalid.splice(invalidIdx, 1)
@@ -449,7 +522,9 @@ export default class index extends React.PureComponent {
   isConditionValid = (item) => {
     if (!item) return true
 
-    const durationValid = item.expiration.expirationDuration > 0
+    const durationValid =
+      item.expiration.expirationDuration >= DURATION_BOUNDARIES.min &&
+      item.expiration.expirationDuration <= DURATION_BOUNDARIES.max
 
     const fillValueValid =
       item.signal.fillOption === 'STATIC' &&
