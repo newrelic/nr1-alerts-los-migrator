@@ -1,3 +1,10 @@
+## [1.2.8](https://github.com/newrelic/nr1-alerts-los-migrator/compare/v1.2.7...v1.2.8) (2021-03-29)
+
+
+### Bug Fixes
+
+* upgrade semantic-ui-react from 1.3.0 to 1.3.1 ([ac450ee](https://github.com/newrelic/nr1-alerts-los-migrator/commit/ac450ee1d709972efeb845c9b4ef334605967fee))
+
 ## [1.2.7](https://github.com/newrelic/nr1-alerts-los-migrator/compare/v1.2.6...v1.2.7) (2021-03-26)
 
 
